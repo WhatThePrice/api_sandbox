@@ -11,3 +11,7 @@ def hello():
 @app.route('/api')
 def api():
     return "<h1>THIS IS API</h1>"
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
