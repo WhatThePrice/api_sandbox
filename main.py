@@ -53,7 +53,8 @@ def login():
 @app.route('/api/v1/data', methods=['GET'])
 # @token_required
 def api():
-    return scraper()
+    val = scraper()
+    return val
 
 
 if __name__ == '__main__':

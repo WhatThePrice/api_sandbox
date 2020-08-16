@@ -4,6 +4,14 @@ def scraper():
     from scraper_api import ScraperAPIClient
     from bs4 import BeautifulSoup
     import json
+    import requests
+
+    saved_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/savequery'
+
+    user_id = None
+
+    if 'user_id' in request.args:
+        user_id = request.args['user_id']
 
     if 'q' in request.args:
         query = request.args['q']
@@ -46,9 +54,16 @@ def scraper():
                         "url": data['mods']['listItems'][i]['productUrl'].lstrip("//").rstrip("?search=1"),
                         "image_url": data['mods']['listItems'][i]['image'].lstrip("https://")
                     })
+
+            myobj = {'query': query, 'user_id': user_id,
+                     'status': results['status'], 'status_code': results['status_code']}
+            requests.post(saved_url, data=myobj)
+
         else:
-            print("Search No Result")
             results = {"status": "Not Found", "status_code": "404", "data": []}
+            myobj = {'query': query,
+                     'status': results['status'], 'status_code': results['status_code']}
+            requests.post(saved_url, data=myobj)
 
         duration = (datetime.datetime.now()-now).total_seconds()
 
@@ -56,4 +71,7 @@ def scraper():
 
     else:
         results = {"status": "Bad Request", "status_code": "400", "data": []}
+        myobj = {'query': None,
+                 'status': results['status'], 'status_code': results['status_code']}
+        requests.post(saved_url, data=myobj)
         return jsonify(results)
