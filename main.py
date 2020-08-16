@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request, make_response
+from flask_cors import CORS
+
 import jwt
 import datetime
 from functools import wraps
@@ -8,6 +10,7 @@ from scraper import scraper
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'wh477heprices3cr3tk3y'
+CORS(app)
 
 
 def token_required(f):
@@ -48,7 +51,7 @@ def login():
 
 
 @app.route('/api/v1/data', methods=['GET'])
-@token_required
+# @token_required
 def api():
     return scraper()
 
