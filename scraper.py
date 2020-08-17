@@ -10,12 +10,13 @@ def scraper():
 
     user_id = None
 
+    now = datetime.datetime.now()
+
     if 'user_id' in request.args:
         user_id = request.args['user_id']
 
     if 'q' in request.args:
         query = request.args['q']
-        now = datetime.datetime.now()
 
         url = 'https://www.lazada.com.my/catalog/?q=' + query
         client = ScraperAPIClient('c9ec9794c69af3279d1c3664445b4a79')
@@ -55,23 +56,25 @@ def scraper():
                         "image_url": data['mods']['listItems'][i]['image'].lstrip("https://")
                     })
 
-            myobj = {'query': query, 'user_id': user_id,
+            duration = (datetime.datetime.now()-now).total_seconds()
+
+            myobj = {'query': query, 'duration': duration, 'user_id': user_id,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
 
         else:
             results = {"status": "Not Found", "status_code": "404", "data": []}
-            myobj = {'query': query,
+            duration = (datetime.datetime.now()-now).total_seconds()
+            myobj = {'query': query, 'duration': duration,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
-
-        duration = (datetime.datetime.now()-now).total_seconds()
 
         return jsonify(results)
 
     else:
         results = {"status": "Bad Request", "status_code": "400", "data": []}
-        myobj = {'query': None,
+        duration = (datetime.datetime.now()-now).total_seconds()
+        myobj = {'query': None, 'duration': duration,
                  'status': results['status'], 'status_code': results['status_code']}
         requests.post(saved_url, data=myobj)
         return jsonify(results)
