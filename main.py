@@ -6,6 +6,7 @@ import datetime
 from functools import wraps
 
 from scraper import scraper
+import json
 
 app = Flask(__name__)
 
@@ -55,6 +56,13 @@ def login():
 def api():
     val = scraper()
     return val
+
+
+@app.route('/dummy')
+def dummy():
+    with open("data.json", "r") as read_file:
+        data = json.load(read_file)
+    return data
 
 
 if __name__ == '__main__':

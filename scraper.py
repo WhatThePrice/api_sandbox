@@ -33,7 +33,8 @@ def scraper():
 
         if "listItems" in data['mods']:
             len(data['mods']['listItems'])
-            results = {"status": "OK", "status_code": "200", "data": []}
+            results = {"status": "OK", "status_code": "200",
+                       "data": [], "analytics": []}
 
             xquery = query.lower().split()
 
@@ -56,14 +57,18 @@ def scraper():
                         "image_url": data['mods']['listItems'][i]['image'].lstrip("https://")
                     })
 
+            results['analytics'].append({"result_count": len(
+                results['data']), "max_price": "", "min_price": "", "avg_price": ""})
+
             duration = (datetime.datetime.now()-now).total_seconds()
 
-            myobj = {'query': query, 'query_time': duration, 'user_id': user_id,
+            myobj = {'query': query, 'query_time': duration, 'result_length': len(results['data']), 'user_id': user_id,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
 
         else:
-            results = {"status": "Not Found", "status_code": "404", "data": []}
+            results = {"status": "Not Found",
+                       "status_code": "404", "data": [], "analytics": []}
             duration = (datetime.datetime.now()-now).total_seconds()
             myobj = {'query': query, 'query_time': duration,
                      'status': results['status'], 'status_code': results['status_code']}
@@ -72,7 +77,8 @@ def scraper():
         return jsonify(results)
 
     else:
-        results = {"status": "Bad Request", "status_code": "400", "data": []}
+        results = {"status": "Bad Request",
+                   "status_code": "400", "data": [], "analytics": []}
         duration = (datetime.datetime.now()-now).total_seconds()
         print(duration)
         myobj = {'query': None, 'query_time': duration,
