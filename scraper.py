@@ -58,14 +58,14 @@ def scraper():
 
             duration = (datetime.datetime.now()-now).total_seconds()
 
-            myobj = {'query': query, 'duration': duration, 'user_id': user_id,
+            myobj = {'query': query, 'query_time': duration, 'user_id': user_id,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
 
         else:
             results = {"status": "Not Found", "status_code": "404", "data": []}
             duration = (datetime.datetime.now()-now).total_seconds()
-            myobj = {'query': query, 'duration': duration,
+            myobj = {'query': query, 'query_time': duration,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
 
@@ -74,7 +74,8 @@ def scraper():
     else:
         results = {"status": "Bad Request", "status_code": "400", "data": []}
         duration = (datetime.datetime.now()-now).total_seconds()
-        myobj = {'query': None, 'duration': duration,
+        print(duration)
+        myobj = {'query': None, 'query_time': duration,
                  'status': results['status'], 'status_code': results['status_code']}
         requests.post(saved_url, data=myobj)
         return jsonify(results)
