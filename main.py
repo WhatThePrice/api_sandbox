@@ -7,6 +7,8 @@ from functools import wraps
 
 from scraper import scraper
 import json
+import requests
+
 
 app = Flask(__name__)
 
@@ -54,10 +56,21 @@ def login():
 @app.route('/api/v1/data', methods=['GET'])
 # @token_required
 def api():
+    try:
+        val = scraper()
+        return val
+    except:
+        saved_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/savequery'
 
-    global data
-    val = scraper()
-    return val
+        results = {"status": "Internal Server Error",
+                   "status_code": "500", "data": [], "analytics": []}
+
+        myobj = {'query': None, 'query_time': None,
+                 'status': results['status'], 'status_code': results['status_code']}
+
+        requests.post(saved_url, data=myobj)
+
+        return jsonify(results)
 
 
 @app.route('/dummy')
