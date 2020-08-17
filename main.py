@@ -54,6 +54,8 @@ def login():
 @app.route('/api/v1/data', methods=['GET'])
 # @token_required
 def api():
+
+    global data
     val = scraper()
     return val
 
