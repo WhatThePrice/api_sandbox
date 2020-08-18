@@ -81,9 +81,7 @@ def scraper():
     else:
         results = {"status": "Bad Request",
                    "status_code": "400", "data": [], "analytics": []}
-        duration = (datetime.datetime.now()-now).total_seconds()
-        print(duration)
-        myobj = {'query': None, 'query_time': duration,
+        myobj = {'query': None, 'query_time': None,
                  'status': results['status'], 'status_code': results['status_code']}
         requests.post(saved_url, data=myobj)
         return jsonify(results)

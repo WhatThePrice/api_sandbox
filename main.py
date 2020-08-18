@@ -59,13 +59,17 @@ def api():
     try:
         val = scraper()
         return val
+
     except:
+        if 'q' in request.args:
+            query_for_debug = request.args['q']
+
         saved_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/savequery'
 
         results = {"status": "Internal Server Error",
                    "status_code": "500", "data": [], "analytics": []}
 
-        myobj = {'query': None, 'query_time': None,
+        myobj = {'query': query_for_debug, 'query_time': None,
                  'status': results['status'], 'status_code': results['status_code']}
 
         requests.post(saved_url, data=myobj)
