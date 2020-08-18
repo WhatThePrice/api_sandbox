@@ -49,12 +49,14 @@ def scraper():
                 if xquery_result:
 
                     results['data'].append({
+                        "id": i,
                         "product_id": data['mods']['listItems'][i]['nid'],
                         "name": data['mods']['listItems'][i]['name'],
                         "price": float(data['mods']['listItems'][i]['price']),
                         "brand": data['mods']['listItems'][i]['brandName'],
                         "url": data['mods']['listItems'][i]['productUrl'].lstrip("//").rstrip("?search=1"),
-                        "image_url": data['mods']['listItems'][i]['image'].lstrip("https://")
+                        "image_url": data['mods']['listItems'][i]['image'].lstrip("https://"),
+                        "platform": "lazada"
                     })
 
             results['analytics'].append({"result_count": len(
