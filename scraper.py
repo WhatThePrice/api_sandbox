@@ -5,6 +5,12 @@ def scraper():
     from bs4 import BeautifulSoup
     import json
     import requests
+    from scipy.stats import skew
+    from scipy import stats
+    import numpy as np
+    import statistics
+    from collections import Counter
+    from itertools import groupby
 
     saved_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/savequery'
 
@@ -59,12 +65,58 @@ def scraper():
                         "platform": "lazada"
                     })
 
-            results['analytics'].append({"result_count": len(
-                results['data']), "max_price": "", "min_price": "", "avg_price": ""})
+            mode_price = 0
+            mode_price_count = 0
+
+            if len(results['data']) > 0:
+                price = []
+                for i in range(len(results['data'])):
+                    price.append(results['data'][i]['price'])
+                price_np = np.array(price)
+
+                result_count = len(price)
+                max_price = max(price)
+                min_price = min(price)
+                mean_price = round(statistics.mean(price), 2)
+                median_price = statistics.median(price)
+                variance = round(statistics.variance(price), 2)
+                stdev = round(statistics.stdev(price), 2)
+                skewness = round(skew(price_np, bias=False), 2)
+
+                freqs = groupby(Counter(price).most_common(), lambda x: x[1])
+                mode_price = [val for val, count in next(freqs)[1]]
+                mode_price_count = int(str(stats.mode(price_np)[1][0]))
+
+            else:
+                result_count = 0
+                max_price = 0
+                min_price = 0
+                mean_price = 0
+                median_price = 0
+                variance = 0
+                stdev = 0
+                skewness = 0
+
+                mode_price = 0
+                mode_price_count = 0
+
+            results['analytics'].append({
+                                        "result_count": result_count,
+                                        "max_price": max_price,
+                                        "min_price": min_price,
+                                        "avg_price": mean_price,
+                                        "median_price": median_price,
+                                        "variance": variance,
+                                        "stdev": stdev,
+                                        "skewness": skewness,
+
+                                        "mode_price": mode_price,
+                                        "mode_price_count": mode_price_count
+                                        })
 
             duration = (datetime.datetime.now()-now).total_seconds()
 
-            myobj = {'query': query, 'query_time': duration, 'result_length': len(results['data']), 'user_id': user_id,
+            myobj = {'query': query, 'query_time': duration, 'result_length': result_count, 'user_id': user_id,
                      'status': results['status'], 'status_code': results['status_code']}
             requests.post(saved_url, data=myobj)
 
