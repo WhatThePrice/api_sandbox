@@ -6,6 +6,7 @@ import datetime
 from functools import wraps
 
 from scraper import scraper
+from tracker import query_tracker
 import json
 import requests
 
@@ -75,6 +76,13 @@ def api():
         requests.post(saved_url, data=myobj)
 
         return jsonify(results)
+
+
+@app.route('/querytracker', methods=['GET'])
+def tracker():
+    val = query_tracker()
+    return val
+    # return "Hi"
 
 
 @app.route('/dummy')
