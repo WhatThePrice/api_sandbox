@@ -21,7 +21,7 @@ def home():
 def productlazada():
     if 'url' in request.args:
         url = request.args['url']
-        return lazada_product_scraper(url)
+        return product_scraper(url)
     else:
         return "URL not found"
 
