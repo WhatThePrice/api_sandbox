@@ -21,7 +21,12 @@ def home():
 def productlazada():
     if 'url' in request.args:
         url = request.args['url']
-        return product_scraper(url)
+        
+        output = product_scraper(url)
+        output = json.loads(output)
+       
+        return jsonify(output)
+
     else:
         return "URL not found"
 
