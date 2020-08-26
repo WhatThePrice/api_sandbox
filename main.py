@@ -1,10 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import json
 import requests
 
-from pyscraper import lazada_product_retry, query_retry
+from pyscraper import product_scraper, query_scraper
 
 app = Flask(__name__)
 
@@ -21,7 +21,7 @@ def home():
 def productlazada():
     if 'url' in request.args:
         url = request.args['url']
-        return lazada_product_retry(url)
+        return lazada_product_scraper(url)
     else:
         return "URL not found"
 
@@ -33,12 +33,24 @@ def queryscraper():
         user_id = request.args['user_id']
     else:
         user_id = 0
+    
     if 'q' in request.args:
-        try:
-            query = request.args['q']
-            return query_retry(query, user_id)
-        except:
-            return json.dumps({'status':'server error', 'status_code':500})
+        query = request.args['q']
+        db_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/query/save'
+
+        output = query_scraper(query)
+        output = json.loads(output)
+
+        if output['status_code'] == 200:
+            data = {'query': query, 'user_id': user_id, 'status': output['status'], 'status_code': output['status_code'], 'result_length': output['analytics']['result_count'], 'query_time': output['elapsed_time']}
+            requests.post(db_url, data=data)
+        
+        else:
+            data = {'query': query, 'user_id': user_id, 'status': output['status'], 'status_code': output['status_code']}
+            requests.post(db_url, data=data)
+        
+        return jsonify(output)
+
     else:
         return "Query not found"
 

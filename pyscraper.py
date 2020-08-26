@@ -1,5 +1,7 @@
 #################################################################################################################
+#################################################################################################################
 # QUERY SCRAPER
+#################################################################################################################
 #################################################################################################################
 def query_scraper(query):
     from scraper_api import ScraperAPIClient
@@ -84,24 +86,35 @@ def query_scraper(query):
     ##################################################################
     result['data'].append(
         {
-            "brand": "Nike",
-            "image_url": "https://cf.shopee.com.my/file/3e6e90a6949afd32de89891ac82726a9",
-            "name": 'ASUS TUF Gaming FX505D-TAL409T - AMD Ryzen™ 7-3750H | 4GB RAM | 512GB SSD | GTX1650 4GB | 15.6" FHD 120Hz',
+            "brand": "Acer",
+            "image_url": "https://cf.shopee.com.my/file/a62d7af1dba88fd9fa282095fff52c59",
+            "name": 'ACER ED272A 27" IPS FHD LED LCD DVI,HDMI MONITOR [ FREE HDMI CABLE ]',
             "platform": "shopee",
-            "price": 3071.04,
-            "product_id": "999999999999",
-            "url": "https://shopee.com.my/ASUS-TUF-Gaming-FX505D-TAL409T-AMD-Ryzen%E2%84%A2-7-3750H-4GB-RAM-512GB-SSD-GTX1650-4GB-15.6-FHD-120Hz-i.96894599.6436369259"
+            "price": 519,
+            "product_id": "20108462",
+            "url": "https://shopee.com.my/ACER-ED272A-27-IPS-FHD-LED-LCD-DVI-HDMI-MONITOR-FREE-HDMI-CABLE--i.20108462.5916278598"
         }
     )
     result['data'].append(
         {
-            "brand": "Nike",
-            "image_url": "https://cf.shopee.com.my/file/87fa4fd209653fb7df248030acdfba7b",
-            "name": "【Shopee Mall】 Original TWS inPods 12 Wireless Earphone Bluetooth Colorful HiFi Sports Earbud",
+            "brand": "Xiaomi",
+            "image_url": "https://cf.shopee.com.my/file/442429847411be6d7ca426252cbdb9ec",
+            "name": "Xiaomi Mi Surface 34-inch Curved Gaming Monitor Screen 24:9 144Hz High Refresh Rate 1500R Curvature Computer Game Monit",
             "platform": "shopee",
-            "price": 22,
-            "product_id": "8888888888888888",
-            "url": "https://shopee.com.my/%E3%80%90Shopee-Mall%E3%80%91-Original-TWS-inPods-12-Wireless-Earphone-Bluetooth-Colorful-HiFi-Sports-Earbud-i.159892917.4001820259"
+            "price": 2049.20,
+            "product_id": "252003586",
+            "url": "https://shopee.com.my/Xiaomi-Mi-Surface-34-inch-Curved-Gaming-Monitor-Screen-24-9-144Hz-High-Refresh-Rate-1500R-Curvature-Computer-Game-Monit-i.252003586.6541469139"
+        }
+    )
+    result['data'].append(
+        {
+            "brand": "Samsung",
+            "image_url": "https://cf.shopee.com.my/file/a2d40da701ba80de8927f26a9e3201d4",
+            "name": 'Samsung LC24F390FHEXXM 24" 16:9 1920 x 1080 Full HD 60Hz Monitor SF350 with Slim Depth Design (LED, HDMI, VGA)',
+            "platform": "shopee",
+            "price": 386,
+            "product_id": "93329653",
+            "url": "https://shopee.com.my/Samsung-LC24F390FHEXXM-24-16-9-1920-x-1080-Full-HD-60Hz-Monitor-SF350-with-Slim-Depth-Design-(LED-HDMI-VGA)-i.93329653.3316219469"
         }
     )
     ##################################################################
@@ -131,38 +144,12 @@ def query_scraper(query):
         return json.dumps(result)
 
 
-# Main query scraper function with retry function.
-def query_retry(query, user_id, retry=3):
-    import json
-    import requests
-
-    new_elapsed_time = 0
-    for i in range(retry):
-        output = json.loads(query_scraper(query))
-        if output['status_code'] != 500:
-            new_elapsed_time += int(output['elapsed_time'])
-            break
-        else:
-            print('try:', str(i+1))
-            new_elapsed_time += int(output['elapsed_time'])
-
-    output['retry'] = i
-    output['elapsed_time'] = new_elapsed_time
-
-    db_url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/query/save'
-    myobj = {'query': query, 'user_id': user_id,
-             'status': output['status'], 'status_code': output['status_code'], 'result_length': output['analytics']['result_count'], 'query_time': output['elapsed_time']}
-    requests.post(db_url, data=myobj)
-
-    return output
-
-
+#################################################################################################################
 #################################################################################################################
 # LAZADA PRODUCT SCRAPER
 #################################################################################################################
-
-# Core lazada product scraper function.
-def lazada_product_scraper(url):
+#################################################################################################################
+def product_scraper(url):
     from scraper_api import ScraperAPIClient
     from bs4 import BeautifulSoup
     import json
@@ -200,36 +187,3 @@ def lazada_product_scraper(url):
             result = {'status_code': 500, 'status': 'blocked/nocontent',
                       'elapsed_time': int(page.elapsed.total_seconds()), 'title': '', 'price': ''}
             return json.dumps(result)
-
-
-# Main lazada product scraper function with retry function.
-def lazada_product_retry(url, retry=3):
-    import json
-    new_elapsed_time = 0
-    for i in range(retry):
-        output = json.loads(lazada_product_scraper(url))
-        if output['status_code'] != 500:
-            new_elapsed_time += int(output['elapsed_time'])
-            output['retry'] = i
-            break
-        else:
-            print('try:', str(i+1))
-            new_elapsed_time += int(output['elapsed_time'])
-            output['retry'] = i
-
-    output['elapsed_time'] = new_elapsed_time
-    return output
-
-
-#################################################################################################################
-# SHOPEE PRODUCT SCRAPER
-#################################################################################################################
-
-# Core shopee product scraper function.
-def product_shopee_scraper(url):
-    return 'In progress'
-
-
-# Main shopee product scraper function with retry function.
-def main_shopee(url, retry=3):
-    return 'In progress'
