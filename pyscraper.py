@@ -139,12 +139,12 @@ def query_retry(query, user_id, retry=3):
     new_elapsed_time = 0
     for i in range(retry):
         output = json.loads(query_scraper(query))
-        if output['status'] != 'scraper api fatal error':
-            new_elapsed_time += output['elapsed_time']
+        if output['status_code'] != 500:
+            new_elapsed_time += int(output['elapsed_time'])
             break
         else:
             print('try:', str(i+1))
-            new_elapsed_time += output['elapsed_time']
+            new_elapsed_time += int(output['elapsed_time'])
 
     output['retry'] = i
     output['elapsed_time'] = new_elapsed_time
@@ -208,13 +208,13 @@ def lazada_product_retry(url, retry=3):
     new_elapsed_time = 0
     for i in range(retry):
         output = json.loads(lazada_product_scraper(url))
-        if output['status'] != 'blocked/nocontent':
-            new_elapsed_time += output['elapsed_time']
+        if output['status_code'] != 500:
+            new_elapsed_time += int(output['elapsed_time'])
             output['retry'] = i
             break
         else:
             print('try:', str(i+1))
-            new_elapsed_time += output['elapsed_time']
+            new_elapsed_time += int(output['elapsed_time'])
             output['retry'] = i
 
     output['elapsed_time'] = new_elapsed_time
