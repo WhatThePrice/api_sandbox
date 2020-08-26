@@ -34,8 +34,11 @@ def queryscraper():
     else:
         user_id = 0
     if 'q' in request.args:
-        query = request.args['q']
-        return query_retry(query, user_id)
+        try:
+            query = request.args['q']
+            return query_retry(query, user_id)
+        except:
+            return json.dumps({'status':'server error', 'status_code':500})
     else:
         return "Query not found"
 
