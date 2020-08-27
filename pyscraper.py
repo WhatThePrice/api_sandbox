@@ -87,34 +87,34 @@ def query_scraper(query):
     result['data'].append(
         {
             "brand": "Acer",
-            "image_url": "https://cf.shopee.com.my/file/a62d7af1dba88fd9fa282095fff52c59",
+            "image_url": "cf.shopee.com.my/file/a62d7af1dba88fd9fa282095fff52c59",
             "name": 'ACER ED272A 27" IPS FHD LED LCD DVI,HDMI MONITOR [ FREE HDMI CABLE ]',
             "platform": "shopee",
             "price": 519,
             "product_id": "20108462",
-            "url": "https://shopee.com.my/ACER-ED272A-27-IPS-FHD-LED-LCD-DVI-HDMI-MONITOR-FREE-HDMI-CABLE--i.20108462.5916278598"
+            "url": "www.shopee.com.my/ACER-ED272A-27-IPS-FHD-LED-LCD-DVI-HDMI-MONITOR-FREE-HDMI-CABLE--i.20108462.5916278598"
         }
     )
     result['data'].append(
         {
             "brand": "Xiaomi",
-            "image_url": "https://cf.shopee.com.my/file/442429847411be6d7ca426252cbdb9ec",
+            "image_url": "cf.shopee.com.my/file/442429847411be6d7ca426252cbdb9ec",
             "name": "Xiaomi Mi Surface 34-inch Curved Gaming Monitor Screen 24:9 144Hz High Refresh Rate 1500R Curvature Computer Game Monit",
             "platform": "shopee",
             "price": 2049.20,
             "product_id": "252003586",
-            "url": "https://shopee.com.my/Xiaomi-Mi-Surface-34-inch-Curved-Gaming-Monitor-Screen-24-9-144Hz-High-Refresh-Rate-1500R-Curvature-Computer-Game-Monit-i.252003586.6541469139"
+            "url": "www.shopee.com.my/Xiaomi-Mi-Surface-34-inch-Curved-Gaming-Monitor-Screen-24-9-144Hz-High-Refresh-Rate-1500R-Curvature-Computer-Game-Monit-i.252003586.6541469139"
         }
     )
     result['data'].append(
         {
             "brand": "Samsung",
-            "image_url": "https://cf.shopee.com.my/file/a2d40da701ba80de8927f26a9e3201d4",
+            "image_url": "cf.shopee.com.my/file/a2d40da701ba80de8927f26a9e3201d4",
             "name": 'Samsung LC24F390FHEXXM 24" 16:9 1920 x 1080 Full HD 60Hz Monitor SF350 with Slim Depth Design (LED, HDMI, VGA)',
             "platform": "shopee",
             "price": 386,
             "product_id": "93329653",
-            "url": "https://shopee.com.my/Samsung-LC24F390FHEXXM-24-16-9-1920-x-1080-Full-HD-60Hz-Monitor-SF350-with-Slim-Depth-Design-(LED-HDMI-VGA)-i.93329653.3316219469"
+            "url": "www.shopee.com.my/Samsung-LC24F390FHEXXM-24-16-9-1920-x-1080-Full-HD-60Hz-Monitor-SF350-with-Slim-Depth-Design-(LED-HDMI-VGA)-i.93329653.3316219469"
         }
     )
     ##################################################################
