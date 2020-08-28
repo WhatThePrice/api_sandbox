@@ -1,30 +1,14 @@
-def query_tracker():
+def get_query_list():
     import requests
     import json
+    url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/tracker/query/list'
+    result = requests.get(url)
+    output = json.loads(result.text)['query_list']
+    return output
 
-    url = "https://laravel-sandbox-whattheprice.herokuapp.com/api/querytracker"
-
-    response = requests.request("GET", url)
-    result = response.json()
-
-    for i in range(len(result)):
-        q = result[i]['query']
-        q_id = result[i]['id']
-
-        url = "https://api-sandbox-286406.et.r.appspot.com/api/v1/data?user_id=0&q=" + q
-        url_post = "https://laravel-sandbox-whattheprice.herokuapp.com/api/savequeryprice"
-
-        try:
-            response = requests.request("GET", url)
-            data = response.json()
-            data_json = json.dumps(data['analytics'][0])
-        except:
-            data = {"status": "error"}
-            data_json = json.dumps(data)
-
-        myobj = {'query_tracker_id': q_id, 'price_analytics': data_json}
-        x = requests.post(url_post, data=myobj)
-
-        print(data_json)
-
-    return "Success!"
+def save_query_price(id, price):
+    import requests
+    url = 'https://laravel-sandbox-whattheprice.herokuapp.com/api/price/query/save'
+    data = {'query_tracker_id': id, 'price_analytics': price}
+    result = requests.post(url, data = data)
+    print('save_query_price', result)

@@ -86,35 +86,46 @@ def query_scraper(query):
     ##################################################################
     result['data'].append(
         {
-            "brand": "Acer",
-            "image_url": "cf.shopee.com.my/file/a62d7af1dba88fd9fa282095fff52c59",
-            "name": 'ACER ED272A 27" IPS FHD LED LCD DVI,HDMI MONITOR [ FREE HDMI CABLE ]',
+            "brand": "Asus",
+            "image_url": "cf.shopee.com.my/file/62c53c04d9380fda719383630bd6c787",
+            "name": 'Asus Vivobook A407M-ABV036T 14" Laptop GREY COLOR (Celeron N4000, 4GB, 500GB, Intel HD, W10) - NOTEBOOK',
             "platform": "shopee",
-            "price": 519,
-            "product_id": "20108462",
-            "url": "www.shopee.com.my/ACER-ED272A-27-IPS-FHD-LED-LCD-DVI-HDMI-MONITOR-FREE-HDMI-CABLE--i.20108462.5916278598"
+            "price": 1498.98,
+            "product_id": "104569008",
+            "url": "www.shopee.com.my/Asus-Vivobook-A407M-ABV036T-14-Laptop-GREY-COLOR-(Celeron-N4000-4GB-500GB-Intel-HD-W10)-NOTEBOOK-i.104569008.6306827413"
         }
     )
     result['data'].append(
         {
-            "brand": "Xiaomi",
-            "image_url": "cf.shopee.com.my/file/442429847411be6d7ca426252cbdb9ec",
-            "name": "Xiaomi Mi Surface 34-inch Curved Gaming Monitor Screen 24:9 144Hz High Refresh Rate 1500R Curvature Computer Game Monit",
+            "brand": "Asus",
+            "image_url": "cf.shopee.com.my/file/4a4987733e9d3c8e0a0a530c7ba2430f",
+            "name": "Asus Laptop A409M-ABV302T 14'' HD Grey ( Celeron N4000, 4GB, 256GB, Intel, W10 )",
             "platform": "shopee",
-            "price": 2049.20,
-            "product_id": "252003586",
-            "url": "www.shopee.com.my/Xiaomi-Mi-Surface-34-inch-Curved-Gaming-Monitor-Screen-24-9-144Hz-High-Refresh-Rate-1500R-Curvature-Computer-Game-Monit-i.252003586.6541469139"
-        }
-    )
-    result['data'].append(
-        {
-            "brand": "Samsung",
-            "image_url": "cf.shopee.com.my/file/a2d40da701ba80de8927f26a9e3201d4",
-            "name": 'Samsung LC24F390FHEXXM 24" 16:9 1920 x 1080 Full HD 60Hz Monitor SF350 with Slim Depth Design (LED, HDMI, VGA)',
-            "platform": "shopee",
-            "price": 386,
+            "price": 1319.00,
             "product_id": "93329653",
-            "url": "www.shopee.com.my/Samsung-LC24F390FHEXXM-24-16-9-1920-x-1080-Full-HD-60Hz-Monitor-SF350-with-Slim-Depth-Design-(LED-HDMI-VGA)-i.93329653.3316219469"
+            "url": "www.shopee.com.my/Asus-Laptop-A409M-ABV302T-14-HD-Grey-(-Celeron-N4000-4GB-256GB-Intel-W10-)-i.93329653.3541263592"
+        }
+    )
+    result['data'].append(
+        {
+            "brand": "Asus",
+            "image_url": "cf.shopee.com.my/file/83cb37321aa3b818b1217b84ea352c9e",
+            "name": 'Asus VivoBook A420U-AEB248T 14" FHD Laptop Transparent Silver',
+            "platform": "shopee",
+            "price": 1615.00,
+            "product_id": "88129513",
+            "url": "www.shopee.com.my/Asus-VivoBook-A420U-AEB248T-14-FHD-Laptop-Transparent-Silver-i.88129513.2372484575"
+        }
+    )
+    result['data'].append(
+        {
+            "brand": "Asus",
+            "image_url": "cf.shopee.com.my/file/17e17464ab4a324c8f0340e365680845",
+            "name": 'ASUS A409M-ABV009T / ASUS A409M-ABV010T ( N4000,4GB,500GB,HD520,14"HD,W10,2YR )',
+            "platform": "shopee",
+            "price": 1309.00,
+            "product_id": "88129513",
+            "url": "www.shopee.com.my/ASUS-A409M-ABV009T-ASUS-A409M-ABV010T-(-N4000-4GB-500GB-HD520-14-HD-W10-2YR-)-i.28954261.3341463178"
         }
     )
     ##################################################################
