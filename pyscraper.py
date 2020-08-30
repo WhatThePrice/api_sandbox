@@ -84,50 +84,40 @@ def query_scraper(query):
     ##################################################################
     # SHOPEE SCRAPER STARTS HERE
     ##################################################################
-    result['data'].append(
-        {
-            "brand": "Asus",
-            "image_url": "cf.shopee.com.my/file/62c53c04d9380fda719383630bd6c787",
-            "name": 'Asus Vivobook A407M-ABV036T 14" Laptop GREY COLOR (Celeron N4000, 4GB, 500GB, Intel HD, W10) - NOTEBOOK',
-            "platform": "shopee",
-            "price": 1498.98,
-            "product_id": "104569008",
-            "url": "www.shopee.com.my/Asus-Vivobook-A407M-ABV036T-14-Laptop-GREY-COLOR-(Celeron-N4000-4GB-500GB-Intel-HD-W10)-NOTEBOOK-i.104569008.6306827413"
-        }
-    )
-    result['data'].append(
-        {
-            "brand": "Asus",
-            "image_url": "cf.shopee.com.my/file/4a4987733e9d3c8e0a0a530c7ba2430f",
-            "name": "Asus Laptop A409M-ABV302T 14'' HD Grey ( Celeron N4000, 4GB, 256GB, Intel, W10 )",
-            "platform": "shopee",
-            "price": 1319.00,
-            "product_id": "93329653",
-            "url": "www.shopee.com.my/Asus-Laptop-A409M-ABV302T-14-HD-Grey-(-Celeron-N4000-4GB-256GB-Intel-W10-)-i.93329653.3541263592"
-        }
-    )
-    result['data'].append(
-        {
-            "brand": "Asus",
-            "image_url": "cf.shopee.com.my/file/83cb37321aa3b818b1217b84ea352c9e",
-            "name": 'Asus VivoBook A420U-AEB248T 14" FHD Laptop Transparent Silver',
-            "platform": "shopee",
-            "price": 1615.00,
-            "product_id": "88129513",
-            "url": "www.shopee.com.my/Asus-VivoBook-A420U-AEB248T-14-FHD-Laptop-Transparent-Silver-i.88129513.2372484575"
-        }
-    )
-    result['data'].append(
-        {
-            "brand": "Asus",
-            "image_url": "cf.shopee.com.my/file/17e17464ab4a324c8f0340e365680845",
-            "name": 'ASUS A409M-ABV009T / ASUS A409M-ABV010T ( N4000,4GB,500GB,HD520,14"HD,W10,2YR )',
-            "platform": "shopee",
-            "price": 1309.00,
-            "product_id": "88129513",
-            "url": "www.shopee.com.my/ASUS-A409M-ABV009T-ASUS-A409M-ABV010T-(-N4000-4GB-500GB-HD520-14-HD-W10-2YR-)-i.28954261.3341463178"
-        }
-    )
+    url_shopee = 'https://shopee.com.my/search?keyword=' + query
+    image_shopee = 'upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopee_logo.svg/1200px-Shopee_logo.svg.png'
+
+    try:
+        page = client.get(url=url_shopee, render=True)
+    except:
+        result = {'status_code': 500, 'status': 'scraper api for shopee fatal error',
+                  'elapsed_time': '', 'data': [], 'analytics': {}}
+        return json.dumps(result)
+
+    if page.status_code != 200:
+        result = {'status_code': page.status_code, 'status': 'shopee error',
+                  'elapsed_time': int(page.elapsed.total_seconds()), 'data': [], 'analytics': {}}
+        return json.dumps(result)
+
+    else:
+        result['elapsed_time_shopee'] = int(page.elapsed.total_seconds())
+        soup = BeautifulSoup(page.content, 'html.parser')
+        shopee_result = soup.select('div.col-xs-2-4.shopee-search-item-result__item')
+
+    for i in range(len(shopee_result)):
+        if shopee_result[i].select('div._1NoI8_'):
+            name = shopee_result[i].select('div._1NoI8_')[0].text
+            url = 'www.shopee.com.my' + shopee_result[i].select('a')[0]['href']
+            
+            if len(shopee_result[i].select('span._341bF0')) == 1:
+                price = shopee_result[i].select('span._341bF0')[0].text
+                result['data'].append({'product_id':'','brand':'','name':name, 'image_url':image_shopee , 'platform':'shopee','url':url, 'price':float(price.replace(',',''))})
+            else:
+                price = shopee_result[i].select('span._341bF0')[0].text
+                price2 = shopee_result[i].select('span._341bF0')[1].text
+                result['data'].append({'product_id':'','brand':'','name':name, 'image_url':image_shopee, 'platform':'shopee', 'url':url, 'price':float(price.replace(',','')), 'price2':float(price2.replace(',',''))})
+
+
     ##################################################################
     # RENUMBERED ID LIST
     for i in range(len(result['data'])):
