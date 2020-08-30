@@ -5,6 +5,7 @@ import json
 import requests
 
 from pyscraper import product_scraper, query_scraper
+from pytracker import track_product_price, track_query_price
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def home():
 
 # /////////////////////////////////////////////////Product Scraper Function//////////////////////////////
 @app.route('/api/scraper/product', methods=['GET'])
-def productlazada():
+def productscraper():
     if 'url' in request.args:
         url = request.args['url']
         
@@ -59,6 +60,19 @@ def queryscraper():
     else:
         return "Query not found"
 
+
+# /////////////////////////////////////////////////Product Tracker Function//////////////////////////////
+@app.route('/api/tracker/product', methods=['GET'])
+def producttracker():       
+    output = track_product_price()
+    return output
+
+
+# /////////////////////////////////////////////////Product Tracker Function//////////////////////////////
+@app.route('/api/tracker/query', methods=['GET'])
+def querytracker():       
+    output = track_query_price()
+    return output
 
 if __name__ == '__main__':
     app.run(debug=True)
